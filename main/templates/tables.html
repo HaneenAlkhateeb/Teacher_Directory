@@ -1,0 +1,100 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      
+
+    </div>
+
+    <div class="container-fluid mt--7">
+
+    
+      <!-- Dark table -->
+      <div class="row mt-5">
+        <div class="col">
+          <div class="card bg-default shadow">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="text-white mb-0">Teachers</h3>
+              <form action="{% url 'home' %}" style="text-align: right;text-align: center;justify-content: center;" class="row col-md-12" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file"
+                       title="Upload excel file"
+                       name="excel_file"
+                       style="border: 1px solid black; padding: 5px;"
+                       required="required">
+                <p>
+                <input type="submit"
+                       value="Import"
+                       style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
+            </form>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                  <tr>
+                    <th class="text-center" scope="col">#</th>
+                    <th class="text-center" scope="col">Image</th>
+                    <th class="text-center" scope="col">Name</th>
+                    <th class="text-center" scope="col">Email</th>
+                    <th class="text-center" scope="col">Phone Number</th>
+                    <th class="text-center" scope="col">Room Number</th>
+                    <th class="text-center" scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in teachers %}
+                  <tr>
+                    <th class="text-center" scope="row">
+                      <div class="media align-items-center">
+                        
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{forloop.counter}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td class="text-center">
+                      <a href="{% url 'profile' id=data.id %}" class="avatar rounded-circle mr-3">
+                        {% if data.profile_picture %}
+                        <img alt="Image" src="/static/assets/img/teachers/{{ data.profile_picture }}">
+                        {% else %}
+                        <img alt="Image" src="/static/assets/img/teachers/defualt.jpg">
+                        {% endif %}
+                      </a>
+                    </td>
+                    <td class="text-center">
+                      <span class="badge badge-dot mr-4">
+                        {{ data.first_name }} {{ data.last_name }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      {{ data.email }}
+                    </td>
+                    <td class="text-center">
+                      {{ data.phone }}
+                    </td>
+                    <td class="text-center">
+                      {{ data.room_no }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
